@@ -11,7 +11,7 @@ const utils = {
             }),
             length,
             direction,
-            lastMove: null,
+            lastMove: direction,
             alive: true
         };
 
@@ -28,21 +28,21 @@ const utils = {
         }
 
         snake.tail = previousNode;
-        console.log(snake.tail);
 
         return snake;
     },
 
-    makeBoard: function (width, height, snakeTail) {
+    makeBoard: function (width, height) {
         const board = {
             width: width,
             height: height,
             emptySpaces: width * height - 1,
-            cells: []
+            cells: [],
+            food: null
         };
-        for (let i = 0; i < height; i++) {
+        for (let y = 0; y < height; y++) {
             const row = [];
-            for (let j = 0; j < width; j++) {
+            for (let x = 0; x < width; x++) {
                 row.push(cellTypes.EMPTY);
             }
             board.cells.push(row);
@@ -56,11 +56,12 @@ const utils = {
         const newFoodAt = Math.floor(Math.random() * newBoard.emptySpaces);
 
         let emptyCellsCounted = 0;
-        for (let i = 0; i < newBoard.height; i++) {
-            for (let j = 0; j < newBoard.width; j++) {
-                if (newBoard.cells[i][j] === cellTypes.EMPTY) {
+        for (let y = 0; y < newBoard.height; y++) {
+            for (let x = 0; x < newBoard.width; x++) {
+                if (newBoard.cells[y][x] === cellTypes.EMPTY) {
                     if (emptyCellsCounted === newFoodAt) {
-                        newBoard.cells[i][j] = cellTypes.FOOD;
+                        newBoard.cells[y][x] = cellTypes.FOOD;
+                        newBoard.food = { x, y };
                         return newBoard;
                     } else {
                         emptyCellsCounted++;
@@ -90,27 +91,68 @@ const utils = {
         head.previous = newHead;
 
         let newTail;
+        let newLength;
         if (
             newPosition.x >= 0 &&
             newPosition.x < board.width &&
             newPosition.y >= 0 &&
-            newPosition.y < board.height
+            newPosition.y < board.height &&
+            board.cells[newPosition.y][newPosition.x] !== cellTypes.SNAKE
         ) {
             if (board.cells[newPosition.y][newPosition.x] === cellTypes.FOOD) {
                 newTail = tail;
+                newLength = snake.length + 1;
             } else {
                 newTail = tail.previous;
             }
+        } else {
+            newTail = tail;
+            newHead = head;
+            head.previous = null;
         }
 
         return {
             head: newHead,
             tail: newTail,
-            length: snake.length,
+            length: newLength ? newLength : snake.length,
             direction,
             lastMove: direction,
             alive: snake.alive
         };
+    },
+
+    handleAction: function (action, snake, restartGame) {
+        switch (action.key) {
+            case 'a':
+            case 'ArrowLeft':
+                if (snake.lastMove !== directions.RIGHT) {
+                    snake.direction = directions.LEFT;
+                }
+                break;
+            case 'd':
+            case 'ArrowRight':
+                if (snake.lastMove !== directions.LEFT) {
+                    snake.direction = directions.RIGHT;
+                }
+                break;
+            case 'w':
+            case 'ArrowUp':
+                if (snake.lastMove !== directions.DOWN) {
+                    snake.direction = directions.UP;
+                }
+                break;
+            case 's':
+            case 'ArrowDown':
+                if (snake.lastMove !== directions.UP) {
+                    snake.direction = directions.DOWN;
+                }
+                break;
+            case 'r':
+                restartGame();
+                break;
+            default:
+                break;
+        }
     }
 };
 

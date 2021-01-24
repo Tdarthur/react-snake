@@ -18,15 +18,6 @@ body {
     border: 1px solid #aaaaaa;
 }
 
-.cell {
-    border-radius: 1px;
-    /* background-color: rgb(32, 32, 32, 0.1); */
-    margin: 1px;
-}
-
-.empty-cell {
-}
-
 .snake-cell {
     background-color: #333333;
     margin: 1px;
@@ -38,6 +29,7 @@ body {
 }
 
 .food-cell {
-    padding: 2px;
-    background-color: lime;
+    border-radius: 2px;
+    margin: 3px;
+    background-color: black;
 }
