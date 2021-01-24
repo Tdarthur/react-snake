@@ -3,35 +3,19 @@ import * as directions from './directions';
 import * as cellTypes from './cellTypes';
 
 const utils = {
-    makeBoard: function (boardWidth, boardHeight) {
-        const board = {
-            width: boardWidth,
-            height: boardHeight,
-            emptySpaces: boardWidth * boardHeight - 1,
-            cells: []
-        };
-        for (let i = 0; i < boardHeight; i++) {
-            const row = [];
-            for (let j = 0; j < boardWidth; j++) {
-                row.push(cellTypes.EMPTY);
-            }
-            board.cells.push(row);
-        }
-
-        return this.generateFood(board);
-    },
-
     makeSnake: function (posX, posY, length, direction) {
-        const snakeEnds = {
+        const snake = {
             head: new SnakeNode({
                 x: posX,
                 y: posY
             }),
+            length,
             direction,
-            lastMove: null
+            lastMove: null,
+            alive: true
         };
 
-        let previousNode = snakeEnds.head;
+        let previousNode = snake.head;
         for (let i = 1; i < length; i++) {
             const currentNode = new SnakeNode(
                 {
@@ -40,13 +24,31 @@ const utils = {
                 },
                 previousNode
             );
-            previousNode.append(currentNode);
             previousNode = currentNode;
         }
 
-        snakeEnds.tail = previousNode;
+        snake.tail = previousNode;
+        console.log(snake.tail);
 
-        return snakeEnds;
+        return snake;
+    },
+
+    makeBoard: function (width, height, snakeTail) {
+        const board = {
+            width: width,
+            height: height,
+            emptySpaces: width * height - 1,
+            cells: []
+        };
+        for (let i = 0; i < height; i++) {
+            const row = [];
+            for (let j = 0; j < width; j++) {
+                row.push(cellTypes.EMPTY);
+            }
+            board.cells.push(row);
+        }
+
+        return this.generateFood(board);
     },
 
     generateFood: function (board) {
@@ -84,6 +86,9 @@ const utils = {
             newPosition.y = newPosition.y + 1;
         }
 
+        let newHead = new SnakeNode(newPosition);
+        head.previous = newHead;
+
         let newTail;
         if (
             newPosition.x >= 0 &&
@@ -93,33 +98,19 @@ const utils = {
         ) {
             if (board.cells[newPosition.y][newPosition.x] === cellTypes.FOOD) {
                 newTail = tail;
-                board.cells[newPosition.y][newPosition.x] = cellTypes.EMPTY;
             } else {
                 newTail = tail.previous;
-                board.cells[tail.position.y][tail.position.x] = cellTypes.EMPTY;
             }
-        } else {
-            newTail = tail;
         }
 
         return {
-            head: new SnakeNode(newPosition, head),
+            head: newHead,
             tail: newTail,
+            length: snake.length,
             direction,
-            lastMove: direction
+            lastMove: direction,
+            alive: snake.alive
         };
-    },
-
-    getSnakeLength: function (snake) {
-        let currentNode = snake;
-        let len = 1;
-
-        while (currentNode.next !== null) {
-            len++;
-            currentNode = currentNode.next;
-        }
-
-        return len;
     }
 };
 

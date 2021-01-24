@@ -1,5 +1,5 @@
 body {
-    margin: 0;
+    margin: 25px;
     background-color: rgb(32, 32, 32);
     height: inherit;
 }
@@ -20,7 +20,7 @@ body {
 
 .cell {
     border-radius: 1px;
-    background-color: rgb(32, 32, 32, 0.1);
+    /* background-color: rgb(32, 32, 32, 0.1); */
     margin: 1px;
 }
 
@@ -32,6 +32,12 @@ body {
     margin: 1px;
 }
 
+.dead-snake-cell {
+    background-color: #553333;
+    margin: 1px;
+}
+
 .food-cell {
     padding: 2px;
+    background-color: lime;
 }

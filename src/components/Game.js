@@ -5,8 +5,8 @@ import * as cellTypes from '../cellTypes';
 import * as directions from '../directions';
 import utils from '../utils';
 
-const REFERESH_INTERVAL_SECONDS = 0.15;
-const SNAKE_INITIAL_LENGTH = 2;
+const REFERESH_INTERVAL_SECONDS = 0.05;
+const SNAKE_INITIAL_LENGTH = 3;
 const SNAKE_INITIAL_DIRECTION = directions.UP;
 
 const Game = ({
@@ -18,7 +18,6 @@ const Game = ({
 }) => {
     const { width, height } = settings.boardSize;
 
-    const [board, setBoard] = useState(utils.makeBoard(width, height));
     const [snake, setSnake] = useState(
         utils.makeSnake(
             Math.floor(width / 2),
@@ -27,6 +26,7 @@ const Game = ({
             SNAKE_INITIAL_DIRECTION
         )
     );
+    const [board, setBoard] = useState(utils.makeBoard(width, height));
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -39,20 +39,23 @@ const Game = ({
 
     function updateSnake() {
         const newSnake = utils.moveSnake(board, snake);
-        setSnake(newSnake);
 
         const newBoard = { ...board, cells: [...board.cells] };
         const { x, y } = newSnake.head.position;
         if (x < 0 || x >= board.width || y < 0 || y >= board.height) {
-            console.log('died at: (' + x + ', ' + y + ')');
+            newSnake.alive = false;
             endGame();
         } else if (newBoard.cells[y][x] === cellTypes.FOOD) {
             newBoard.cells[y][x] = cellTypes.SNAKE;
             setBoard(utils.generateFood(newBoard));
         } else {
+            newBoard.cells[snake.tail.position.y][snake.tail.position.x] =
+                cellTypes.EMPTY;
             newBoard.cells[y][x] = cellTypes.SNAKE;
             setBoard(newBoard);
         }
+
+        setSnake(newSnake);
     }
 
     document.onkeydown = (e) => {
@@ -91,7 +94,7 @@ const Game = ({
 
     return (
         <>
-            <Gameboard board={board} />
+            <Gameboard board={board} snakeAlive={snake.alive} />
         </>
     );
 };
