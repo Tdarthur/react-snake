@@ -1,103 +1,87 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import Gameboard from './Gameboard';
 
-import * as directions from '../directions';
-import * as cellTypes from '../cellTypes';
-import utils from '../utils';
+import { moveSnake, handleGameInput } from '../redux/actions/gameActions';
 
-const CELL_SIZE = '15px';
+import { gameStatus } from './App';
+
+export const refreshIntervals = {
+    SLOW: 0.1,
+    NORMAL: 0.05,
+    FAST: 0.025
+};
 
 const ACTION_QUEUE_SIZE = 5;
-const REFERESH_INTERVAL_SECONDS = 0.075;
-const SNAKE_INITIAL_LENGTH = 3;
-const SNAKE_INITIAL_DIRECTION = directions.UP;
+const ACTION_KEY_CODES = [
+    'KeyA',
+    'KeyD',
+    'KeyW',
+    'KeyS',
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowUp',
+    'ArrowDown',
+    'KeyR'
+];
+const SPECIAL_KEY_CODES = ['Space', 'ShiftLeft'];
 
-const UseGameState = ({ playingGame, restartGame, endGame, settings }) => {
-    const { width, height } = settings.boardSize;
-    const [snake, setSnake] = useState(
-        utils.makeSnake(
-            Math.floor(width / 2),
-            Math.floor(height / 2),
-            SNAKE_INITIAL_LENGTH,
-            SNAKE_INITIAL_DIRECTION
-        )
-    );
-    const [board, setBoard] = useState(utils.makeBoard(width, height));
+const Game = ({ refreshInterval, status, moveSnake, handleGameInput }) => {
+    console.log(refreshInterval);
     const [actionQueue, setActionQueue] = useState([]);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (playingGame) {
-                updateSnake();
+            if (status === gameStatus.PLAYING) {
+                const action = actionQueue.shift();
+                if (action) {
+                    handleGameInput(action);
+                }
+
+                moveSnake();
             }
-        }, REFERESH_INTERVAL_SECONDS * 1000);
+        }, refreshInterval * 1000);
         return () => {
             clearInterval(interval);
         };
     });
 
-    const gridTemplate = {
-        rows: '',
-        columns: ''
-    };
-    for (let i = 0; i < height; i++) {
-        gridTemplate.rows += `${CELL_SIZE} `;
-    }
-    for (let i = 0; i < width; i++) {
-        gridTemplate.columns += `${CELL_SIZE} `;
-    }
-
-    function updateSnake() {
-        const action = actionQueue.shift();
-        if (action) {
-            utils.handleAction(action, snake, restartGame);
-        }
-
-        const newSnake = utils.moveSnake(board, snake);
-
-        const newBoard = { ...board, cells: [...board.cells] };
-        const { x, y } = newSnake.head.position;
+    document.onkeydown = ({ code }) => {
         if (
-            x < 0 ||
-            x >= board.width ||
-            y < 0 ||
-            y >= board.height ||
-            newBoard.cells[y][x] === cellTypes.SNAKE
+            ACTION_KEY_CODES.includes(code) &&
+            actionQueue.length < ACTION_QUEUE_SIZE
         ) {
-            newSnake.alive = false;
-            endGame();
-        } else if (newBoard.cells[y][x] === cellTypes.FOOD) {
-            newBoard.cells[y][x] = cellTypes.SNAKE;
-            setBoard(utils.generateFood(newBoard));
-        } else {
-            newBoard.cells[snake.tail.position.y][snake.tail.position.x] =
-                cellTypes.EMPTY;
-            newBoard.cells[y][x] = cellTypes.SNAKE;
-            setBoard(newBoard);
-        }
-
-        setSnake(newSnake);
-    }
-
-    document.onkeydown = (e) => {
-        if (actionQueue.length < ACTION_QUEUE_SIZE) {
             const newActionQueue = [...actionQueue];
-            newActionQueue.push(e);
+            newActionQueue.push({ code });
             setActionQueue(newActionQueue);
+        } else if (SPECIAL_KEY_CODES.includes(code)) {
+            handleGameInput({ code, down: true });
         }
     };
 
-    return { snake, food: board.food, gridTemplate };
-};
-
-const Game = (props) => {
-    const { snake, food, gridTemplate } = UseGameState(props);
+    document.onkeyup = ({ code }) => {
+        if (SPECIAL_KEY_CODES.includes(code)) {
+            handleGameInput({ code, down: false });
+        }
+    };
 
     return (
         <>
-            <Gameboard gridTemplate={gridTemplate} snake={snake} food={food} />
+            <Gameboard />
         </>
     );
 };
 
-export default Game;
+function mapStateToProps(state) {
+    return {
+        refreshInterval: state.gameState.refreshInterval,
+        status: state.gameState.status
+    };
+}
+
+const mapDispatchToProps = {
+    moveSnake,
+    handleGameInput
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

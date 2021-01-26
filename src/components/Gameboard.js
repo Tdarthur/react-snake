@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import Snake from './Snake';
 import Food from './Food';
 
-const Gameboard = ({ gridTemplate, snake, food }) => {
+const Gameboard = ({ gameState }) => {
+    const { status, board, gridTemplate } = gameState;
     return (
         <>
             <div
@@ -13,11 +15,17 @@ const Gameboard = ({ gridTemplate, snake, food }) => {
                     gridTemplateColumns: gridTemplate.columns
                 }}
             >
-                <Snake snake={snake} />
-                <Food food={food} />
+                <Snake board={board} status={status} />
+                <Food food={board.food} />
             </div>
         </>
     );
 };
 
-export default Gameboard;
+function mapStateToProps(state) {
+    return {
+        gameState: state.gameState
+    };
+}
+
+export default connect(mapStateToProps, null)(Gameboard);

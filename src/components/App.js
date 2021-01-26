@@ -1,42 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Game from './Game';
 
-const BOARD_WIDTHS = { SMALL: 10, MEDIUM: 35, LARGE: 50 };
-const BOARD_HEIGHTS = { SMALL: 10, MEDIUM: 25, LARGE: 35 };
+export const boardSize = {
+    SMALL: { width: 20, height: 15 },
+    MEDIUM: { width: 35, height: 25 },
+    LARGE: { width: 50, height: 35 }
+};
+
+export const gameStatus = {
+    PLAYING: 'PLAYING',
+    PAUSED: 'PAUSED',
+    GAME_OVER: 'GAME_OVER'
+};
 
 function App() {
-    const [playingGame, setPlayingGame] = useState(true);
-    const [gameKey, setGameKey] = useState(0);
-    const [settings, setSettings] = useState({
-        boardSize: { width: BOARD_WIDTHS.SMALL, height: BOARD_HEIGHTS.SMALL }
-    });
-
-    const restartGame = () => {
-        setPlayingGame(true);
-        setGameKey(gameKey + 1);
-    };
-
-    const endGame = () => {
-        setPlayingGame(false);
-    };
-
-    const updateSettings = (newSettings) => {
-        setSettings(newSettings);
-    };
-
-    return (
-        <div>
-            <Game
-                settings={settings}
-                playingGame={playingGame}
-                updateSettings={updateSettings}
-                endGame={endGame}
-                restartGame={restartGame}
-                key={gameKey}
-            />
-        </div>
-    );
+    return <Game />;
 }
 
 export default App;
