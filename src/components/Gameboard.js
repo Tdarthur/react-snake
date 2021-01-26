@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Snake from './Snake';
 import Food from './Food';
 
-const Gameboard = ({ gameState }) => {
+const GameBoard = ({ gameState }) => {
     const { status, board, gridTemplate } = gameState;
     return (
         <>
@@ -28,4 +28,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, null)(Gameboard);
+export default connect(mapStateToProps, null)(GameBoard);

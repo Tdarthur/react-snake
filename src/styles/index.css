@@ -1,5 +1,4 @@
 body {
-    margin: 25px;
     background-color: rgb(32, 32, 32);
     height: inherit;
 }
@@ -12,10 +11,32 @@ body {
     margin: 0 auto 0 auto;
 }
 
+.score-board {
+    margin: 0 0 10px auto;
+}
+
+.score-title,
+.score {
+    font-family: sans-serif;
+    color: #cccccc;
+    text-align: right;
+}
+
+.score-title {
+    font-size: 24px;
+    color: #aaaaaa;
+}
+
+.score {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+}
+
 .game-board {
     display: grid;
-    background-color: #aaaaaa;
-    border: 1px solid #aaaaaa;
+    background-color: #888888;
+    border: 1px solid #888888;
 }
 
 .snake-cell {
@@ -24,12 +45,12 @@ body {
 }
 
 .dead-snake-cell {
-    background-color: #553333;
+    background-color: #ff3333;
     margin: 1px;
 }
 
 .food-cell {
     border-radius: 2px;
-    margin: 3px;
-    background-color: black;
+    margin: 2px;
+    background-color: #fcba03;
 }

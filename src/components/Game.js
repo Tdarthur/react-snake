@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Gameboard from './Gameboard';
+import ScoreBoard from './Scoreboard';
+import GameBoard from './Gameboard';
 
 import { moveSnake, handleGameInput } from '../redux/actions/gameActions';
 
@@ -27,7 +28,6 @@ const ACTION_KEY_CODES = [
 const SPECIAL_KEY_CODES = ['Space', 'ShiftLeft'];
 
 const Game = ({ refreshInterval, status, moveSnake, handleGameInput }) => {
-    console.log(refreshInterval);
     const [actionQueue, setActionQueue] = useState([]);
 
     useEffect(() => {
@@ -51,9 +51,14 @@ const Game = ({ refreshInterval, status, moveSnake, handleGameInput }) => {
             ACTION_KEY_CODES.includes(code) &&
             actionQueue.length < ACTION_QUEUE_SIZE
         ) {
-            const newActionQueue = [...actionQueue];
-            newActionQueue.push({ code });
-            setActionQueue(newActionQueue);
+            if (code !== 'KeyR') {
+                const newActionQueue = [...actionQueue];
+                newActionQueue.push({ code });
+                setActionQueue(newActionQueue);
+            } else {
+                handleGameInput({ code });
+                setActionQueue([]);
+            }
         } else if (SPECIAL_KEY_CODES.includes(code)) {
             handleGameInput({ code, down: true });
         }
@@ -67,7 +72,8 @@ const Game = ({ refreshInterval, status, moveSnake, handleGameInput }) => {
 
     return (
         <>
-            <Gameboard />
+            <ScoreBoard />
+            <GameBoard />
         </>
     );
 };

@@ -134,7 +134,6 @@ const gameUtils = {
                 }
                 break;
             case 'KeyR':
-                console.log('RESTARTING');
                 return initializeGameState(state.settings);
             case 'Space':
                 if (inputAction.down) {
