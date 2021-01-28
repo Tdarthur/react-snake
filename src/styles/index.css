@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(32, 32, 32);
+    background-color: rgb(32, 32, 16);
     height: inherit;
 }
 
@@ -39,6 +39,11 @@ body {
     border: 1px solid #888888;
 }
 
+.game-board:hover {
+    outline: 2px solid white;
+    background-color: #777777;
+}
+
 #settings_dropdown {
     background-color: rgba(255, 255, 255, 0.1);
     margin: 5px 0;
@@ -51,15 +56,16 @@ body {
 
 #settings_dropdown:hover {
     background-color: rgba(255, 255, 255, 0.05);
+    outline: 2px solid white;
 }
 
 .snake-cell {
-    background-color: #333333;
+    /* background-color: #333333; */
     /* margin: 1px; */
 }
 
 .dead-snake-cell {
-    background-color: #ff3333;
+    /* background-color: #ff3333; */
     /* margin: 1px; */
 }
 

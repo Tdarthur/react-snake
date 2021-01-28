@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { updateSettings } from '../redux/actions/gameActions';
 
 import { boardSize } from './App';
-import Setting from './Setting';
 
 const Settings = ({ settings, updateSettings }) => {
     const [tempSettings, setTempSettings] = useState({});
@@ -26,7 +25,6 @@ const Settings = ({ settings, updateSettings }) => {
             changedSettings.snakeStartLength = newSnakeStartLength;
         }
 
-        console.log(changedSettings);
         updateSettings(changedSettings);
     };
 
@@ -37,26 +35,28 @@ const Settings = ({ settings, updateSettings }) => {
     };
 
     return (
-        <form onSubmit={saveHandler}>
-            <select
-                onChange={(e) =>
-                    handleSettingChange('boardSize', e.target.value)
-                }
-                name='boardSize'
-            >
-                <option value='1'>Small</option>
-                <option value='2'>Medium</option>
-                <option value='3'>Large</option>
-            </select>
-            <input
-                type='text'
-                name='snakeStartLength'
-                onChange={(e) =>
-                    handleSettingChange('snakeStartLength', e.target.value)
-                }
-            />
-            <input type='submit' />
-        </form>
+        <>
+            <form onSubmit={saveHandler}>
+                <select
+                    onChange={(e) =>
+                        handleSettingChange('boardSize', e.target.value)
+                    }
+                    name='boardSize'
+                >
+                    <option value='1'>Small</option>
+                    <option value='2'>Medium</option>
+                    <option value='3'>Large</option>
+                </select>
+                <input
+                    type='text'
+                    name='snakeStartLength'
+                    onChange={(e) =>
+                        handleSettingChange('snakeStartLength', e.target.value)
+                    }
+                />
+                <input type='submit' />
+            </form>
+        </>
     );
 };
 

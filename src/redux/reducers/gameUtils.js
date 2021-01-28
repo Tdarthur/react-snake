@@ -148,6 +148,20 @@ const gameUtils = {
                     snake.speed = state.settings.snakeNormalSpeed;
                 }
                 break;
+            case 'Enter':
+                if (
+                    !inputAction.down &&
+                    state.status !== gameStatus.GAME_OVER
+                ) {
+                    return {
+                        ...state,
+                        status:
+                            state.status === gameStatus.PLAYING
+                                ? gameStatus.PAUSED
+                                : gameStatus.PLAYING
+                    };
+                }
+                break;
             default:
                 break;
         }

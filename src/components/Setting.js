@@ -1,5 +1,7 @@
 import React from 'react';
 
-const Setting = () => <></>;
+const Setting = ({ settingType,  }) => {
+    return <></>;
+};
 
 export default Setting;

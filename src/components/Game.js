@@ -24,7 +24,7 @@ const ACTION_KEY_CODES = [
     'ArrowDown',
     'KeyR'
 ];
-const SPECIAL_KEY_CODES = ['Space', 'ShiftLeft'];
+const SPECIAL_KEY_CODES = ['Space', 'ShiftLeft', 'Enter'];
 
 const Game = ({
     settings,
@@ -57,11 +57,11 @@ const Game = ({
             ACTION_KEY_CODES.includes(code) &&
             actionQueue.length < ACTION_QUEUE_SIZE
         ) {
-            if (code !== 'KeyR') {
+            if (code !== 'KeyR' && status === gameStatus.PLAYING) {
                 const newActionQueue = [...actionQueue];
                 newActionQueue.push({ code });
                 setActionQueue(newActionQueue);
-            } else {
+            } else if (code === 'KeyR') {
                 handleGameInput({ code });
                 setActionQueue([]);
             }
