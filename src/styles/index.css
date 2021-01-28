@@ -39,14 +39,28 @@ body {
     border: 1px solid #888888;
 }
 
+#settings_dropdown {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 5px 0;
+    padding: 10px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+#settings_dropdown:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
 .snake-cell {
     background-color: #333333;
-    margin: 1px;
+    /* margin: 1px; */
 }
 
 .dead-snake-cell {
     background-color: #ff3333;
-    margin: 1px;
+    /* margin: 1px; */
 }
 
 .food-cell {

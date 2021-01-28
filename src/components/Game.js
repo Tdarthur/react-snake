@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import ScoreBoard from './Scoreboard';
-import GameBoard from './Gameboard';
 
-import { moveSnake, handleGameInput } from '../redux/actions/gameActions';
+import {
+    moveSnake,
+    handleGameInput,
+    updateSettings
+} from '../redux/actions/gameActions';
 
 import { gameStatus } from './App';
-
-export const refreshIntervals = {
-    SLOW: 0.1,
-    NORMAL: 0.05,
-    FAST: 0.025
-};
+import ScoreBoard from './Scoreboard';
+import GameBoard from './Gameboard';
+import Settings from './Settings';
 
 const ACTION_QUEUE_SIZE = 5;
 const ACTION_KEY_CODES = [
@@ -27,7 +26,14 @@ const ACTION_KEY_CODES = [
 ];
 const SPECIAL_KEY_CODES = ['Space', 'ShiftLeft'];
 
-const Game = ({ refreshInterval, status, moveSnake, handleGameInput }) => {
+const Game = ({
+    settings,
+    snakeSpeed,
+    status,
+    updateSettings,
+    moveSnake,
+    handleGameInput
+}) => {
     const [actionQueue, setActionQueue] = useState([]);
 
     useEffect(() => {
@@ -40,7 +46,7 @@ const Game = ({ refreshInterval, status, moveSnake, handleGameInput }) => {
 
                 moveSnake();
             }
-        }, refreshInterval * 1000);
+        }, 1000 / snakeSpeed);
         return () => {
             clearInterval(interval);
         };
@@ -70,24 +76,35 @@ const Game = ({ refreshInterval, status, moveSnake, handleGameInput }) => {
         }
     };
 
+    const toggleSettings = () => {
+        const changedSettings = { show: !settings.show };
+        updateSettings(changedSettings);
+    };
+
     return (
         <>
             <ScoreBoard />
             <GameBoard />
+            <div id='settings_dropdown' onClick={toggleSettings}>
+                {(settings.show ? 'Hide' : 'Show') + ' Settings'}
+            </div>
+            {settings.show ? <Settings /> : <></>}
         </>
     );
 };
 
 function mapStateToProps(state) {
     return {
-        refreshInterval: state.gameState.refreshInterval,
+        settings: state.gameState.settings,
+        snakeSpeed: state.gameState.board.snake.speed,
         status: state.gameState.status
     };
 }
 
 const mapDispatchToProps = {
     moveSnake,
-    handleGameInput
+    handleGameInput,
+    updateSettings
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

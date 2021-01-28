@@ -9,7 +9,7 @@ export default function gameReducer(state = initialState.gameState, action) {
         case types.START_NEW_GAME:
             return initializeGameState(state.settings);
         case types.UPDATE_SETTINGS:
-            return { ...state, settings: action.newSettings };
+            return gameUtils.updateSettings(state, action.changedSettings);
         case types.UPDATE_STATUS:
             return { ...state, status: action.newStatus };
         case types.MOVE_SNAKE:

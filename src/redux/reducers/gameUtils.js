@@ -1,7 +1,6 @@
 import { initializeGameState } from './initialState';
 
 import { gameStatus } from '../../components/App';
-import { refreshIntervals } from '../../components/Game';
 import * as cellTypes from '../../cellTypes';
 import * as directions from '../../directions';
 
@@ -137,20 +136,36 @@ const gameUtils = {
                 return initializeGameState(state.settings);
             case 'Space':
                 if (inputAction.down) {
-                    newState.refreshInterval = refreshIntervals.SLOW;
+                    snake.speed = state.settings.snakeSlowSpeed;
                 } else {
-                    newState.refreshInterval = refreshIntervals.NORMAL;
+                    snake.speed = state.settings.snakeNormalSpeed;
                 }
                 break;
             case 'ShiftLeft':
                 if (inputAction.down) {
-                    newState.refreshInterval = refreshIntervals.FAST;
+                    snake.speed = state.settings.snakeFastSpeed;
                 } else {
-                    newState.refreshInterval = refreshIntervals.NORMAL;
+                    snake.speed = state.settings.snakeNormalSpeed;
                 }
                 break;
             default:
                 break;
+        }
+
+        return newState;
+    },
+
+    updateSettings: (state, changedSettings) => {
+        const newState = {
+            ...state,
+            settings: { ...state.settings, ...changedSettings }
+        };
+
+        if (
+            changedSettings.boardSize &&
+            changedSettings.boardSize !== state.settings.boardSize
+        ) {
+            return initializeGameState(newState.settings);
         }
 
         return newState;

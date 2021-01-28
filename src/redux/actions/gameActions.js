@@ -4,8 +4,8 @@ export function startNewGame() {
     return { type: types.START_NEW_GAME };
 }
 
-export function updateSettings(newSettings) {
-    return { type: types.UPDATE_SETTINGS, newSettings };
+export function updateSettings(changedSettings) {
+    return { type: types.UPDATE_SETTINGS, changedSettings };
 }
 
 export function updateStatus(newStatus) {
