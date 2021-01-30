@@ -1,0 +1,19 @@
+@import './common/colors.scss';
+@import './Scoreboard.scss';
+@import './Gameboard.scss';
+@import './Settings.scss';
+
+$background-color: $theme-dark-gray;
+
+body {
+    background-color: $background-color;
+    height: inherit;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    width: fit-content;
+    margin: 0 auto 0 auto;
+}

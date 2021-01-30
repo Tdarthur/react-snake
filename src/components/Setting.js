@@ -23,9 +23,10 @@ const Setting = ({
 
 function makeNumberInput(name, labelText, min, max, onChange) {
     return (
-        <div class='setting'>
+        <div className='setting'>
             <label name={name}>{labelText}:</label>
             <input
+                className='interactable'
                 type='number'
                 min={min}
                 max={max}
@@ -38,9 +39,10 @@ function makeNumberInput(name, labelText, min, max, onChange) {
 
 function makeSelect(name, labelText, children, onChange) {
     return (
-        <div class='setting'>
+        <div className='setting'>
             <label name={name}>{labelText}:</label>
             <select
+                className='interactable'
                 name={name}
                 onChange={(e) => onChange(name, e.target.value)}
             >

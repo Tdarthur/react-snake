@@ -1,16 +1,16 @@
+@import './common/colors.scss';
+
+$dropdown-color: lighten($theme-dark-gray, 8);
+$setting-color: $theme-black;
+
 #settings_dropdown {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: $dropdown-color;
     margin: 5px 0;
     padding: 10px;
     font-family: sans-serif;
     font-weight: bold;
     color: white;
     text-align: center;
-}
-
-#settings_dropdown:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    outline: 2px solid white;
 }
 
 .setting {
@@ -29,7 +29,7 @@
 
 .setting input,
 .setting select {
-    background-color: #101010;
+    background-color: $setting-color;
     color: white;
     flex: 1 1;
     margin: auto 1em auto auto;
@@ -38,37 +38,26 @@
     border-radius: 5px;
 }
 
-.setting input:hover,
-.setting select:hover {
-    background-color: #303030;
-    outline: 2px solid white;
-}
-
-.setting input:active,
-.setting select:active {
-    outline: 2px solid white;
-}
-
-.save-wrapper {
+#save-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
 }
 
 .save-button {
+    font-size: 1em;
     margin: 1em auto;
     min-width: 25%;
-    padding: 1em;
+    padding: 0.75em;
     color: #cccccc;
     background-color: #101010;
     border: 0;
     border-radius: 5px;
+    font-weight: bold;
 }
 
-.save-button:hover {
-    outline: 2px solid white;
-    background-color: #303030;
-    color: #dddddd;
+.save-button:disabled {
+    color: $theme-gray;
 }
 
 .save-button:focus {

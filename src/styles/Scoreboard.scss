@@ -1,0 +1,46 @@
+@use "sass:color";
+@import './common/colors.scss';
+@import './common/effects.scss';
+
+$score-color: white;
+$score-label-color: darken($score-color, 32);
+
+#scoreboard {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 2px 50%;
+    margin: 0 0 10px auto;
+}
+
+#high_score {
+    text-align: left;
+    justify-self: left;
+}
+
+#spacer {
+    height: 100%;
+    width: 100%;
+    background-color: $theme-black;
+}
+
+#current_score {
+    text-align: right;
+    justify-self: right;
+}
+
+.score-title,
+.score {
+    font-family: sans-serif;
+    color: $theme-white;
+}
+
+.score-title {
+    font-size: 1.5em;
+    color: $score-label-color;
+}
+
+.score {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: $score-color;
+}

@@ -25,7 +25,8 @@ const GameBoard = ({ gameState, updateStatus }) => {
         <>
             <div className='game'>
                 <div
-                    className='game-board'
+                    className='overlay-container interactable'
+                    id='game_board'
                     style={{
                         gridTemplateRows: gridTemplate.rows,
                         gridTemplateColumns: gridTemplate.columns
@@ -35,25 +36,27 @@ const GameBoard = ({ gameState, updateStatus }) => {
                     <Snake board={board} status={status} />
                     <Food food={board.food} />
                     {status !== gameStatus.PLAYING ? (
-                        <div id='game_overlay'>
+                        <div className='overlay' id='game_overlay'>
                             <button id='overlay_button'>
                                 {status === gameStatus.WAITING ? (
                                     <>
-                                        <span className='highlight'>Click</span>{' '}
+                                        <span className='text-special'>
+                                            Click
+                                        </span>{' '}
                                         or press{' '}
-                                        <span className='highlight'>
+                                        <span className='text-special'>
                                             'Enter'
                                         </span>{' '}
                                         to Play
                                     </>
                                 ) : status === gameStatus.PAUSED ? (
-                                    <span className='highlight'>Paused</span>
+                                    <span className='text-special'>Paused</span>
                                 ) : (
                                     <>
                                         Game Over
                                         <br />
                                         Press{' '}
-                                        <span className='highlight'>
+                                        <span className='text-special'>
                                             'R'
                                         </span>{' '}
                                         to restart

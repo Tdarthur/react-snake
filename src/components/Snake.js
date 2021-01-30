@@ -92,6 +92,10 @@ const Snake = ({ board, status }) => {
     const snakeTailCell = cells[snake.tail.y][snake.tail.x];
     const snakeTailStyle = snakeCells[0].props.style;
     if (roundedSnake) {
+        if (snakeCells.length === 1) {
+            snakeHeadStyle.borderRadius = `${SNAKE_EDGE_RADIUS}`;
+        }
+
         if (lastCellValue === cellTypes.SNAKE_LEFT) {
             snakeHeadStyle.borderRadius = `${SNAKE_EDGE_RADIUS} 0 0 ${SNAKE_EDGE_RADIUS}`;
         } else if (lastCellValue === cellTypes.SNAKE_RIGHT) {

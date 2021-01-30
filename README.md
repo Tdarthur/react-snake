@@ -2,7 +2,7 @@
 
 ## Description
 
-This is an implementation of Snake, created using React and Redux.
+This is an implementation of Snake, created using React, Redux, and Sass.
 
 ## Controls:
 

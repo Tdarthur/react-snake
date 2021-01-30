@@ -85,7 +85,11 @@ const Game = ({
         <>
             <ScoreBoard />
             <GameBoard />
-            <div id='settings_dropdown' onClick={toggleSettings}>
+            <div
+                className='interactable'
+                id='settings_dropdown'
+                onClick={toggleSettings}
+            >
                 {(settings.show ? 'Hide' : 'Show') + ' Settings'}
             </div>
             {settings.show ? <Settings /> : <></>}

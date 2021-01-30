@@ -1,0 +1,60 @@
+@use "sass:color";
+@import './common/colors.scss';
+@import './common/effects.scss';
+@import './common/components.scss';
+
+$board-color: lighten($theme-gray, 10%);
+$snake-color: lighten($theme-black, 5%);
+$dead-snake-color: color.adjust($snake-color, $red: 16);
+
+#game_board {
+    display: grid;
+    background-color: $board-color;
+    border: 1px solid $board-color;
+}
+
+#game-board:hover {
+    outline: 2px solid white;
+    background-color: darken($board-color, 16);
+}
+
+#game_overlay {
+    background-color: rgb(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.75;
+}
+
+#overlay_button {
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 32px;
+    border: none;
+    z-index: 10;
+}
+
+#overlay_button:focus {
+    outline: none;
+}
+
+.snake-cell {
+    background-color: $snake-color;
+    box-shadow: 0 0 0.5em $snake-color;
+}
+
+.dead-snake-cell {
+    background-color: $dead-snake-color;
+    box-shadow: 0 0 0.5em $dead-snake-color;
+}
+
+.food-cell {
+    border-radius: 5px;
+    margin: 2px;
+    background-color: $theme-yellow;
+    box-shadow: 0 0 0.5em $theme-yellow;
+}

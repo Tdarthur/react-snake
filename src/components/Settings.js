@@ -6,8 +6,6 @@ import { updateSettings } from '../redux/actions/gameActions';
 import { boardSize } from './App';
 import Setting from './Setting';
 
-import '../styles/Settings.css';
-
 export const settingTypes = {
     TEXT: 1,
     NUMBER: 2,
@@ -35,6 +33,7 @@ const Settings = ({ settings, updateSettings }) => {
             changedSettings.snakeStartLength = newSnakeStartLength;
         }
 
+        setTempSettings({});
         updateSettings(changedSettings);
     };
 
@@ -66,10 +65,19 @@ const Settings = ({ settings, updateSettings }) => {
                     max={7}
                     onChange={handleSettingChange}
                 ></Setting>
-                <div className='save-wrapper'>
-                    <button className='save-button' type='submit'>
-                        Save Changes
-                    </button>
+                <div id='save-wrapper'>
+                    {Object.keys(tempSettings).length > 0 ? (
+                        <button
+                            className='save-button interactable'
+                            type='submit'
+                        >
+                            <span className='text-special'>Save Changes</span>
+                        </button>
+                    ) : (
+                        <button className='save-button' type='submit' disabled>
+                            <span>Save Changes</span>
+                        </button>
+                    )}
                 </div>
             </form>
         </>

@@ -1,0 +1,13 @@
+@import './colors.scss';
+
+$highlight-darken: 16;
+
+.text-special {
+    color: $theme-yellow;
+    text-shadow: 0 0 0.5em;
+}
+
+.interactable:hover {
+    outline: 2px solid white;
+    filter: brightness(85%);
+}
