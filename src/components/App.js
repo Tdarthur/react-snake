@@ -9,6 +9,7 @@ export const boardSize = {
 };
 
 export const gameStatus = {
+    WAITING: 'WAITING',
     PLAYING: 'PLAYING',
     PAUSED: 'PAUSED',
     GAME_OVER: 'GAME_OVER'

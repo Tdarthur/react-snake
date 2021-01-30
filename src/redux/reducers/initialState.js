@@ -115,7 +115,7 @@ const initializeGridTemplate = (settings) => {
 
 export const initializeGameState = (settings) => ({
     settings,
-    status: gameStatus.PLAYING,
+    status: gameStatus.WAITING,
     board: initializeBoard(settings),
     gridTemplate: initializeGridTemplate(settings)
 });

@@ -13,7 +13,10 @@ const GameBoard = ({ gameState, updateStatus }) => {
     const handleBoardClick = () => {
         if (status === gameStatus.PLAYING) {
             updateStatus(gameStatus.PAUSED);
-        } else if (status === gameStatus.PAUSED) {
+        } else if (
+            status === gameStatus.PAUSED ||
+            status === gameStatus.WAITING
+        ) {
             updateStatus(gameStatus.PLAYING);
         }
     };
@@ -31,12 +34,37 @@ const GameBoard = ({ gameState, updateStatus }) => {
                 >
                     <Snake board={board} status={status} />
                     <Food food={board.food} />
+                    {status !== gameStatus.PLAYING ? (
+                        <div id='game_overlay'>
+                            <button id='overlay_button'>
+                                {status === gameStatus.WAITING ? (
+                                    <>
+                                        <span className='highlight'>Click</span>{' '}
+                                        or press{' '}
+                                        <span className='highlight'>
+                                            'Enter'
+                                        </span>{' '}
+                                        to Play
+                                    </>
+                                ) : status === gameStatus.PAUSED ? (
+                                    <span className='highlight'>Paused</span>
+                                ) : (
+                                    <>
+                                        Game Over
+                                        <br />
+                                        Press{' '}
+                                        <span className='highlight'>
+                                            'R'
+                                        </span>{' '}
+                                        to restart
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
-                {status === gameStatus.PAUSED ? (
-                    <div className='game-overlay' />
-                ) : (
-                    <></>
-                )}
             </div>
         </>
     );

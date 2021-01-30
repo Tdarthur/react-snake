@@ -176,8 +176,11 @@ const gameUtils = {
         };
 
         if (
-            changedSettings.boardSize &&
-            changedSettings.boardSize !== state.settings.boardSize
+            (changedSettings.boardSize &&
+                changedSettings.boardSize !== state.settings.boardSize) ||
+            (changedSettings.snakeStartLength &&
+                changedSettings.snakeStartLength !==
+                    state.settings.snakeStartLength)
         ) {
             return initializeGameState(newState.settings);
         }
